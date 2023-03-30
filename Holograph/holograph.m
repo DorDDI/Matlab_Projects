@@ -26,3 +26,12 @@ delta_pixel_N =  lambda*d/(pixel_N*N);
 reference=15*exp((2*i*pi*(tet*m.*pixel_M+tet*n.*pixel_N +z))/(lambda));        %the reference func   (reference amplitude, 0 in one of x,y)
 
 img = img.*conj(reference);
+
+q_func = exp((i*pi*((m.*pixel_M).^2+(n.*pixel_N).^2))/(lambda*d));                     %q func with ksay for the restoration
+delta_q_func = exp(i*pi*((m.*delta_pixel_M).^2+(n.*delta_pixel_N).^2)./(lambda*d));    %q func with x,y for the restoration
+
+hologram_total = (fftshift(fft2(fftshift(img.*q_func)))).*delta_q_func;
+
+figure(5);                                 %figure the hologram restoration 
+imagesc((abs(hologram_total)));
+title("figure the hologram restoration ");
